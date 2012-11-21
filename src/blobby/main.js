@@ -2,6 +2,7 @@ Blobby.Main = Ext.extend(Core.Base, {
     autoStart: false,
     useRAF: true,
     delegates: null,
+    debugMode: false,
     constructor: function() {
         Blobby.Main.superclass.constructor.apply(this, arguments);
         
@@ -19,9 +20,37 @@ Blobby.Main = Ext.extend(Core.Base, {
         var me = this;
         
         me.player = new Blobby.Player({
+            color: '#ff5500',
+            x: me.sW * (1/4),
+            y: me.sH * (3/4),
+            controls: Core.conf.game.controls,
             caller: me
         });
+        
+        var oponentClass = Core.conf.game.mode  == 'cpu' ? 'Oponent' : 'Player';
+        me.oponent = new Blobby[oponentClass]({
+            color: '#ff0000',
+            x: me.sW * (3/4),
+            y: me.sH * (3/4),
+            caller: me
+        });
+        
+        me.ball = new Blobby.Ball({
+            x: me.sW * (1/4),
+            y: me.sH / 2,
+            caller: me
+        });
+        
+        me.net = new Blobby.Net({
+            x: me.sW / 2,
+            y: me.sH / 2,
+            sH: me.sH
+        });
+        
         me.stage.addChild(me.player);
+        me.stage.addChild(me.oponent);
+        me.stage.addChild(me.net);
+        me.stage.addChild(me.ball);
         
         me.stage.update();
     },
@@ -43,9 +72,22 @@ Blobby.Main = Ext.extend(Core.Base, {
     onFrame: function() {
         var me = this;
         
+        // TODO: collisions
+        me.oponent.ball = {
+            x: me.ball.x,
+            y: me.ball.y
+        };
+        
+        if(me.debugMode) {
+            me.ball.x = me.stage.mouseX;
+            me.ball.y = me.stage.mouseY;
+        }
+        
         if(!me.delegates.length) {
             return;
         }
+        
+        console.log('anim')
         
         for(var i in me.delegates) {
             if(!me.delegates.hasOwnProperty(i)) continue;

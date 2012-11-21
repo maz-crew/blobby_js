@@ -2,11 +2,12 @@ Ext.onReady(function() {
     // TODO: menu
     
     // Game initialization
+    var canvas = $('#blobby-canvas');
     var main = new Blobby.Main({
         canvas: 'blobby-canvas',
         autoStart: true,
-        sW: 640,
-        sH: 480,
+        sW: canvas.attr('width'),
+        sH: canvas.attr('height'),
         useRAF: true
     });
 });

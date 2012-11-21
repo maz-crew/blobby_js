@@ -8,7 +8,10 @@ var scripts = [
     'core/conf.js',
     'core/base.js',
     
+    'blobby/ball.js',
+    'blobby/net.js',
     'blobby/player.js',
+    'blobby/oponent.js',
     'blobby/main.js',
     
     'game.js'
