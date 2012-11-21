@@ -87,8 +87,6 @@ Blobby.Main = Ext.extend(Core.Base, {
             return;
         }
         
-        console.log('anim')
-        
         for(var i in me.delegates) {
             if(!me.delegates.hasOwnProperty(i)) continue;
             var d = me.delegates[i];

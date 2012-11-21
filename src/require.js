@@ -3,6 +3,7 @@ var scripts = [
     'http://ajax.googleapis.com/ajax/libs/ext-core/3.1.0/ext-core.js',
     
     'libs/easeljs-0.5.0.min.js',
+    'libs/tweenjs-0.3.0.min.js',
     
     'core/bootstrap.js',
     'core/conf.js',

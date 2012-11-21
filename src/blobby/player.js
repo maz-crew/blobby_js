@@ -3,6 +3,7 @@ Blobby.Player = Ext.extend(createjs.Shape, {
     controls: 'keyboard',
     started: false,
     speed: 0,
+    jumpSpeed: 0,
     constructor: function(config) {
         var me = this;
         Ext.apply(me, config || {});
@@ -46,7 +47,20 @@ Blobby.Player = Ext.extend(createjs.Shape, {
     
     onFrame: function(time) {
         var me = this;
-        me.x += me.speed;
+        
+        var posX = Math.max(me.radius, Math.min(me.caller.sW / 2 - me.radius - 8, me.x + me.speed));
+        
+        if(me.jumpSpeed) {
+            var posY = me.y - me.jumpSpeed;
+            me.y = posY;
+            me.jumpSpeed--;
+            
+            if(!me.jumpSpeed) {
+                me.afterJump();
+            }
+        }
+        
+        me.x = posX;
     },
     
     setEvents: function() {
@@ -62,21 +76,50 @@ Blobby.Player = Ext.extend(createjs.Shape, {
         }
     },
     
+    jump: function() {
+        var me = this;
+        me.jumping = true;
+        me.jumpSpeed = 20;
+    },
+    
+    afterJump: function() {
+        var me = this;
+        me.anim = createjs.Tween.get(me,{
+            loop:false
+        }).to({
+            y: me.caller.sH * (3/4)
+        }, 300, createjs.Ease.quartIn);
+    },
+    
     onKeyDown: function(e) {
         var me = this,
             keys = {37:-1,39:1};
             
+        if(e.which == 32 && !me.jumping) {
+            me.jump();
+            me.start();
+            return;
+        }
+        
         if(!keys[e.which]) {
             return;
         }
         
-        me.speed = 5 * keys[e.which];
+        me.speed = 10 * keys[e.which];
         
         me.start();
     },
     
     onKeyUp: function(e) {
         var me = this;
+        
+        if(e.which == 32) {
+            me.jumpSpeed = 0;
+            me.afterJump();
+            me.jumping = false;
+            return;
+        }
+        
         me.speed = 0;
         me.stop();
     }
