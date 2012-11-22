@@ -21,8 +21,8 @@ Blobby.Main = Ext.extend(Core.Base, {
         
         me.player = new Blobby.Player({
             color: '#ff5500',
-            x: me.sW * (1/4),
-            y: me.sH * (3/4),
+            startX: me.sW * (1/4),
+            startY: me.sH * (3/4),
             controls: Core.conf.game.controls,
             caller: me
         });
@@ -30,8 +30,8 @@ Blobby.Main = Ext.extend(Core.Base, {
         var oponentClass = Core.conf.game.mode  == 'cpu' ? 'Oponent' : 'Player';
         me.oponent = new Blobby[oponentClass]({
             color: '#ff0000',
-            x: me.sW * (3/4),
-            y: me.sH * (3/4),
+            startX: me.sW * (3/4),
+            startY: me.sH * (3/4),
             caller: me
         });
         

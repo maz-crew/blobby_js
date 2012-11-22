@@ -15,12 +15,16 @@ Blobby.Oponent = Ext.extend(Blobby.Player, {
     },
     
     onFrame: function() {
-        var me = this;
+        var me = this,
+        	bX = me.ball.x;
         
-        var posX = me.x + (me.ball.x - me.x) * 0.1;
+        if(bX < me.caller.sW / 2 - me.radius) {
+        	bX = me.startX;
+        }
+        
+        var posX = me.x + (bX - me.x) * 0.1;
         
         posX = Math.max(me.caller.sW / 2 + me.radius + 8, Math.min(me.caller.sW, posX));
-        
         
         me.x = posX;
     }
