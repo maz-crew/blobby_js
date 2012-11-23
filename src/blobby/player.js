@@ -50,14 +50,15 @@ Blobby.Player = Ext.extend(createjs.Shape, {
     
     onFrame: function(time) {
         var me = this;
+        console.log(me.jumpSpeed, me.jumping);
         var posX = Math.max(me.radius, Math.min(me.caller.sW / 2 - me.radius - 8, me.x + me.speed));
-        console.log(me.jumpSpeed);
+        
         if(me.jumpSpeed) {
             var posY = me.y - me.jumpSpeed;
             me.y = posY;
             me.jumpSpeed--;
             
-            if(!me.jumpSpeed) {
+            if(!me.jumpSpeed && me.jumping) {
                 me.afterJump();
             }
         }
@@ -86,15 +87,13 @@ Blobby.Player = Ext.extend(createjs.Shape, {
     
     afterJump: function() {
         var me = this;
-        if(me.jumpSpeed == 0){
-	        me.anim = createjs.Tween.get(me,{
-	            loop:false
-	        }).to({
-	            y: me.caller.sH * (3/4)
-	        }, 300, createjs.Ease.quartIn).call(function(){
-	        	me.jumping = false;
-	        });
-		}
+        me.anim = createjs.Tween.get(me,{
+            loop:false
+        }).to({
+            y: me.caller.sH * (3/4)
+        }, 300, createjs.Ease.Linear).call(function(){
+        	me.jumping = false;
+        });
     },
     
     onKeyDown: function(e) {
@@ -102,7 +101,6 @@ Blobby.Player = Ext.extend(createjs.Shape, {
             keys = {37:-1,39:1};
             
         if(e.which == 32 && !me.jumping) {
-        	
             me.jump();
             me.start();
             return;
@@ -121,7 +119,7 @@ Blobby.Player = Ext.extend(createjs.Shape, {
         var me = this;
         
         if(e.which == 32) {
-            //me.jumpSpeed = 0;
+            me.jumpSpeed = 0;
             me.afterJump();
             //me.jumping = false;
             return;
