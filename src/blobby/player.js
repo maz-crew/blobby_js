@@ -50,7 +50,6 @@ Blobby.Player = Ext.extend(createjs.Shape, {
     
     onFrame: function(time) {
         var me = this;
-        console.log(me.jumpSpeed, me.jumping);
         var posX = Math.max(me.radius, Math.min(me.caller.sW / 2 - me.radius - 8, me.x + me.speed));
         
         if(me.jumpSpeed) {
