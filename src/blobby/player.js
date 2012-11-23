@@ -9,6 +9,9 @@ Blobby.Player = Ext.extend(createjs.Shape, {
         Ext.apply(me, config || {});
         Blobby.Player.superclass.constructor.apply(me, arguments);
         
+        me.x = me.startX;
+        me.y = me.startY;
+        
         me.build();
         me.setEvents();
     },
